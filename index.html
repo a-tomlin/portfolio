@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="style.css">
-<div id="map"></div>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leaflet Interactive Map</title>
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <style>
@@ -14,8 +13,10 @@
 </head>
 <body>
   <div id="map"></div>
+
   <label><input type="checkbox" id="toggle-property" checked> Property Ownership</label>
   <label><input type="checkbox" id="toggle-infrastructure" checked> Infrastructure</label>
+
   <script src="script.js"></script>
 </body>
 </html>
