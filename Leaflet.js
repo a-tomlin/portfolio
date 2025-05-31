@@ -6,12 +6,11 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Load Property Ownership GeoJSON
+// Define empty layers for Property Ownership and Infrastructure
 const propertyLayer = L.geoJSON(null, {
   style: { color: 'blue', fillOpacity: 0.5 }
 }).addTo(map);
 
-// Load Infrastructure GeoJSON
 const infrastructureLayer = L.geoJSON(null, {
   style: { color: 'red', weight: 2 }
 }).addTo(map);
@@ -19,13 +18,21 @@ const infrastructureLayer = L.geoJSON(null, {
 // Fetch GeoJSON data and add it to layers
 fetch('property_ownership.geojson')
   .then(res => res.json())
-  .then(data => propertyLayer.addData(data));
+  .then(data => {
+    propertyLayer.addData(data);
+    console.log("Property ownership data loaded successfully");
+  })
+  .catch(err => console.error("Error loading property ownership data:", err));
 
 fetch('infrastructure.geojson')
   .then(res => res.json())
-  .then(data => infrastructureLayer.addData(data));
+  .then(data => {
+    infrastructureLayer.addData(data);
+    console.log("Infrastructure data loaded successfully");
+  })
+  .catch(err => console.error("Error loading infrastructure data:", err));
 
-// Toggle Layers
+// Toggle Layers on Checkbox Change
 document.getElementById('toggle-property').addEventListener('change', (e) => {
   e.target.checked ? map.addLayer(propertyLayer) : map.removeLayer(propertyLayer);
 });
@@ -33,3 +40,8 @@ document.getElementById('toggle-property').addEventListener('change', (e) => {
 document.getElementById('toggle-infrastructure').addEventListener('change', (e) => {
   e.target.checked ? map.addLayer(infrastructureLayer) : map.removeLayer(infrastructureLayer);
 });
+
+// Force Map to Refresh Size
+setTimeout(() => {
+  map.invalidateSize();
+}, 500);
