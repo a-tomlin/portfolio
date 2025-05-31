@@ -1,47 +1,52 @@
-// Initialize the map
-const map = L.map('map').setView([43.6532, -79.3832], 12); // Toronto coordinates
+// Create map centered around Mississauga/Toronto
+var map = L.map('map').setView([43.6, -79.6], 11);
 
-// Add a Tile Layer (OpenStreetMap for free usage)
+// Add base layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Define empty layers for Property Ownership and Infrastructure
-const propertyLayer = L.geoJSON(null, {
-  style: { color: 'blue', fillOpacity: 0.5 }
-}).addTo(map);
+// Layer placeholders
+let wifiLayer, miWayLayer;
 
-const infrastructureLayer = L.geoJSON(null, {
-  style: { color: 'red', weight: 2 }
-}).addTo(map);
-
-// Fetch GeoJSON data and add it to layers
-fetch('property_ownership.geojson')
+// Load WiFi.geojson
+fetch('WiFi.geojson')
   .then(res => res.json())
   .then(data => {
-    propertyLayer.addData(data);
-    console.log("Property ownership data loaded successfully");
-  })
-  .catch(err => console.error("Error loading property ownership data:", err));
+    wifiLayer = L.geoJSON(data, {
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+        radius: 6,
+        fillColor: 'blue',
+        color: 'darkblue',
+        weight: 1,
+        fillOpacity: 0.7
+      }).bindPopup(feature.properties?.Name || 'WiFi Point')
+    }).addTo(map);
+  });
 
-fetch('infrastructure.geojson')
+// Load MiWay_StopsRoutes.geojson
+fetch('MiWay_StopsRoutes.geojson')
   .then(res => res.json())
   .then(data => {
-    infrastructureLayer.addData(data);
-    console.log("Infrastructure data loaded successfully");
-  })
-  .catch(err => console.error("Error loading infrastructure data:", err));
+    miWayLayer = L.geoJSON(data, {
+      style: {
+        color: 'green',
+        weight: 2
+      },
+      onEachFeature: (feature, layer) => {
+        layer.bindPopup(feature.properties?.ROUTE_NAME || 'Route');
+      }
+    }).addTo(map);
+  });
 
-// Toggle Layers on Checkbox Change
-document.getElementById('toggle-property').addEventListener('change', (e) => {
-  e.target.checked ? map.addLayer(propertyLayer) : map.removeLayer(propertyLayer);
+// Checkbox toggles
+document.getElementById('toggle-property').addEventListener('change', function (e) {
+  if (wifiLayer) {
+    e.target.checked ? map.addLayer(wifiLayer) : map.removeLayer(wifiLayer);
+  }
 });
-
-document.getElementById('toggle-infrastructure').addEventListener('change', (e) => {
-  e.target.checked ? map.addLayer(infrastructureLayer) : map.removeLayer(infrastructureLayer);
+document.getElementById('toggle-infrastructure').addEventListener('change', function (e) {
+  if (miWayLayer) {
+    e.target.checked ? map.addLayer(miWayLayer) : map.removeLayer(miWayLayer);
+  }
 });
-
-// Force Map to Refresh Size
-setTimeout(() => {
-  map.invalidateSize();
-}, 500);
