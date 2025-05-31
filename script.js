@@ -20,7 +20,7 @@ fetch('WiFi.geojson')
         color: 'darkblue',
         weight: 1,
         fillOpacity: 0.7
-      }).bindPopup(feature.properties?.Name || 'WiFi Point')
+      }).bindPopup(feature.properties?.DESCRIPT || 'WiFi Point')
     }).addTo(map);
   });
 
@@ -34,7 +34,7 @@ fetch('MiWay_StopsRoutes.geojson')
         weight: 2
       },
       onEachFeature: (feature, layer) => {
-        layer.bindPopup(feature.properties?.ROUTE_NAME || 'Route');
+        layer.bindPopup(feature.properties?.Route || 'Route');
       }
     }).addTo(map);
   });
