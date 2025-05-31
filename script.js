@@ -20,7 +20,7 @@ fetch('WiFi.geojson')
         color: 'darkblue',
         weight: 1,
         fillOpacity: 0.7
-      }).bindPopup(feature.properties?.DESCRIPT ||'Description');
+      }).bindPopup(feature.properties?.DESCRIPT ||'Description')
     }).addTo(map);
   });
 
