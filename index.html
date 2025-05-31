@@ -13,14 +13,41 @@
 
   <style>
     html, body { height: 100%; margin: 0; }
-    #map { width: 100%; height: 90vh; }
+    #map { width: 100%; height: 80vh; }
+    .controls {
+      padding: 10px;
+    }
+    label, select {
+      margin-right: 20px;
+    }
   </style>
 </head>
 <body>
-  <div id="map"></div>
 
-  <label><input type="checkbox" id="toggle-property" checked> Property Ownership (WiFi)</label>
-  <label><input type="checkbox" id="toggle-infrastructure" checked> Infrastructure (MiWay)</label>
+  <!-- Layer controls and style options -->
+  <div class="controls">
+    <label><input type="checkbox" id="toggle-property" checked> Property Ownership (WiFi)</label>
+    <label><input type="checkbox" id="toggle-infrastructure" checked> Infrastructure (MiWay)</label>
+
+    <br><br>
+
+    <label for="wifi-style-select">Style WiFi by:</label>
+    <select id="wifi-style-select">
+      <option value="">-- Select Attribute --</option>
+      <option value="SSID">SSID</option>
+      <option value="SignalStrength">Signal Strength</option>
+    </select>
+
+    <label for="miway-style-select">Style MiWay by:</label>
+    <select id="miway-style-select">
+      <option value="">-- Select Attribute --</option>
+      <option value="ROUTE_NAME">Route Name</option>
+      <option value="ROUTE_TYPE">Route Type</option>
+    </select>
+  </div>
+
+  <!-- Map container -->
+  <div id="map"></div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -29,3 +56,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
