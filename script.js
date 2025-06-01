@@ -1,5 +1,12 @@
 // Initialize map centered on Mississauga
 const map = L.map('map').setView([43.6, -79.6], 11);
+L.control.measure({
+  primaryLengthUnit: 'meters',
+  secondaryLengthUnit: 'kilometers',
+  primaryAreaUnit: 'sqmeters',
+  secondaryAreaUnit: 'hectares'
+}).addTo(map);
+
 
 // Add OpenStreetMap base layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
