@@ -1,20 +1,16 @@
-// Create the map
-const map = L.map('map').setView([43.6, -79.6], 11);
+// Create map centered around Mississauga/Toronto
+var map = L.map('map').setView([43.6, -79.6], 11);
 
-// Add base map layer
+// Add base tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Declare layer variables
-let wifiLayer = null;
-let miWayLayer = null;
-
-// Load WiFi layer
+// Load WiFi.geojson and add to map
 fetch('WiFi.geojson')
   .then(res => res.json())
   .then(data => {
-    wifiLayer = L.geoJSON(data, {
+    const wifiLayer = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
         radius: 6,
         fillColor: 'blue',
@@ -27,35 +23,29 @@ fetch('WiFi.geojson')
       }
     }).addTo(map);
 
-    setupToggle('toggle-wifi', wifiLayer);
+    // Checkbox toggle for WiFi layer (after layer is ready)
+    document.getElementById('toggle-wifi').addEventListener('change', function (e) {
+      e.target.checked ? map.addLayer(wifiLayer) : map.removeLayer(wifiLayer);
+    });
   });
 
-// Load MiWay layer
+// Load MiWay_StopsRoutes.geojson and add to map
 fetch('MiWay_StopsRoutes.geojson')
   .then(res => res.json())
   .then(data => {
-    miWayLayer = L.geoJSON(data, {
+    const miWayLayer = L.geoJSON(data, {
       style: {
         color: 'green',
         weight: 2
       },
       onEachFeature: (feature, layer) => {
-        const route = feature.properties?.ROUTE_NAME || feature.properties?.StopNumber || 'N/A';
+        const route = feature.properties?.Route || feature.properties?.StopNumber || 'N/A';
         layer.bindPopup(`Route: ${route}`);
       }
     }).addTo(map);
 
-    setupToggle('toggle-miway', miWayLayer);
+    // Checkbox toggle for MiWay layer (after layer is ready)
+    document.getElementById('toggle-transit').addEventListener('change', function (e) {
+      e.target.checked ? map.addLayer(miWayLayer) : map.removeLayer(miWayLayer);
+    });
   });
-
-// Helper function to set up checkbox toggling
-function setupToggle(checkboxId, layer) {
-  const checkbox = document.getElementById(checkboxId);
-  checkbox.addEventListener('change', function () {
-    if (checkbox.checked) {
-      map.addLayer(layer);
-    } else {
-      map.removeLayer(layer);
-    }
-  });
-}
