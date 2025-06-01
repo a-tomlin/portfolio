@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <!-- Leaflet Measure CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leaflet Interactive Map</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
+  
+  <!-- Leaflet Measure Plugin CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+  
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    html, body { height: 100%; margin: 0; }
-    #map { width: 100%; height: 80vh; }
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    #map {
+      width: 100%;
+      height: 80vh;
+    }
     .controls {
       padding: 10px;
     }
-    label, select {
+    label {
       margin-right: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Layer controls and style options -->
+  <!-- Layer controls -->
   <div class="controls">
     <label><input type="checkbox" id="toggle-wifi" checked> WiFi Locations</label>
     <label><input type="checkbox" id="toggle-transit" checked> MiWay Stops</label>
-
   </div>
 
   <!-- Map container -->
@@ -40,13 +44,12 @@
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+  
+  <!-- Leaflet Measure Plugin JS -->
   <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.min.js"></script>
-
+  
   <!-- App logic -->
   <script src="script.js"></script>
-  <!-- Leaflet Measure JS -->
-
 
 </body>
 </html>
