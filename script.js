@@ -54,7 +54,7 @@ fetch('MiWay_StopsRoutes.geojson')
     }).addTo(map);
 
     // Setup toggle once layer is ready
-    const miWayCheckbox = document.getElementById('toggle-miway');
+    const miWayCheckbox = document.getElementById('toggle-transit');
     miWayCheckbox.addEventListener('change', () => {
       if (miWayCheckbox.checked) {
         map.addLayer(miWayLayer);
