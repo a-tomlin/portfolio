@@ -12,6 +12,7 @@ L.control.measure({
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
+L.marker([43.6, -79.6]).addTo(map).bindPopup('Mississauga').openPopup();
 
 // Placeholder for layers
 let wifiLayer;
