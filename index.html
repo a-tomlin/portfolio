@@ -3,28 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Leaflet Layer Toggle Map</title>
+  <title>Leaflet Interactive Map</title>
 
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+
   <style>
     html, body { height: 100%; margin: 0; }
-    #map { width: 100%; height: 90vh; }
+    #map { width: 100%; height: 80vh; }
     .controls {
       padding: 10px;
-      background-color: #f2f2f2;
+    }
+    label, select {
+      margin-right: 20px;
     }
   </style>
 </head>
 <body>
 
+  <!-- Layer controls and style options -->
   <div class="controls">
-    <label><input type="checkbox" id="toggle-wifi" checked> Show WiFi</label>
-    <label><input type="checkbox" id="toggle-miway" checked> Show MiWay</label>
+    <label><input type="checkbox" id="toggle-wifi" checked> WiFi Locations</label>
+    <label><input type="checkbox" id="toggle-transit" checked> MiWay Stops</label>
+
+    <br><br>
+
+    <label for="wifi-style-select">Style WiFi by:</label>
+    <select id="wifi-style-select">
+      <option value="">-- Select Attribute --</option>
+      <option value="SSID">SSID</option>
+      <option value="SignalStrength">Signal Strength</option>
+    </select>
+
+    <label for="miway-style-select">Style MiWay by:</label>
+    <select id="miway-style-select">
+      <option value="">-- Select Attribute --</option>
+      <option value="ROUTE_NAME">Route Name</option>
+      <option value="ROUTE_TYPE">Route Type</option>
+    </select>
   </div>
 
+  <!-- Map container -->
   <div id="map"></div>
 
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- App logic -->
   <script src="script.js"></script>
 </body>
 </html>
