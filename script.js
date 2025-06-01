@@ -1,16 +1,20 @@
-// Create map centered around Mississauga/Toronto
-var map = L.map('map').setView([43.6, -79.6], 11);
+// Initialize map centered on Mississauga
+const map = L.map('map').setView([43.6, -79.6], 11);
 
-// Add base tile layer
+// Add OpenStreetMap base layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Load WiFi.geojson and add to map
+// Placeholder for layers
+let wifiLayer;
+let miWayLayer;
+
+// Load WiFi GeoJSON
 fetch('WiFi.geojson')
   .then(res => res.json())
   .then(data => {
-    const wifiLayer = L.geoJSON(data, {
+    wifiLayer = L.geoJSON(data, {
       pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
         radius: 6,
         fillColor: 'blue',
@@ -23,29 +27,39 @@ fetch('WiFi.geojson')
       }
     }).addTo(map);
 
-    // Checkbox toggle for WiFi layer (after layer is ready)
-    document.getElementById('toggle-wifi').addEventListener('change', function (e) {
-      e.target.checked ? map.addLayer(wifiLayer) : map.removeLayer(wifiLayer);
+    // Setup toggle once layer is ready
+    const wifiCheckbox = document.getElementById('toggle-wifi');
+    wifiCheckbox.addEventListener('change', () => {
+      if (wifiCheckbox.checked) {
+        map.addLayer(wifiLayer);
+      } else {
+        map.removeLayer(wifiLayer);
+      }
     });
   });
 
-// Load MiWay_StopsRoutes.geojson and add to map
+// Load MiWay GeoJSON
 fetch('MiWay_StopsRoutes.geojson')
   .then(res => res.json())
   .then(data => {
-    const miWayLayer = L.geoJSON(data, {
+    miWayLayer = L.geoJSON(data, {
       style: {
         color: 'green',
         weight: 2
       },
       onEachFeature: (feature, layer) => {
-        const route = feature.properties?.Route || feature.properties?.StopNumber || 'N/A';
-        layer.bindPopup(`Route: ${route}`);
+        const label = feature.properties?.ROUTE_NAME || feature.properties?.StopNumber || 'N/A';
+        layer.bindPopup(`Route: ${label}`);
       }
     }).addTo(map);
 
-    // Checkbox toggle for MiWay layer (after layer is ready)
-    document.getElementById('toggle-transit').addEventListener('change', function (e) {
-      e.target.checked ? map.addLayer(miWayLayer) : map.removeLayer(miWayLayer);
+    // Setup toggle once layer is ready
+    const miWayCheckbox = document.getElementById('toggle-miway');
+    miWayCheckbox.addEventListener('change', () => {
+      if (miWayCheckbox.checked) {
+        map.addLayer(miWayLayer);
+      } else {
+        map.removeLayer(miWayLayer);
+      }
     });
   });
